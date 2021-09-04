@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -41,6 +42,12 @@ node* insert(node* t,int x)
         return t;
     }
 };
+int treeLevel (node* t)
+{
+    if ( t == NULL) return -1;
+    if (isLeaf(t)) return 0;
+    return 1 + max(treeLevel(t->left),treeLevel(t->right));
+}
 void printTree(node* t )
 {
     if ( t != NULL)
@@ -51,6 +58,12 @@ void printTree(node* t )
     }
 };
 
+bool checkAvl(node* t)
+{
+    if ( t == NULL) return true;
+    if (abs(treeLevel(t->right) - treeLevel(t->left)) > 1) return false;
+    return checkAvl(t->left) && checkAvl(t->right);
+}
 int main ()
 {
     int n,x;
@@ -61,7 +74,13 @@ int main ()
         cin >> x;
         t = insert(t, x);
     }
-    cout << countLeaf(t);
-    printTree(t);
+   //cout << countLeaf(t);
+    //printTree(t);
+   // cout << treeLevel(t);
+   if (checkAvl(t)) cout << "True";
+   else
+   {
+       cout << "False";
+   }
 }
 
